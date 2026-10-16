@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f26/team01-f26-13
 owner: ucsb-cs156-f26
 repo_name: team01-f26-13
-pull_requests: [{"author":{"id":"U_kgDODg22tw","is_bot":false,"login":"bcttang","name":""},"headRefName":"bt-RecommendationRequest-create-db","number":49,"title":"bt - create database table for RecommendationRequest","url":"https://github.com/ucsb-cs156-f26/team01-f26-13/pull/49"},{"author":{"id":"U_kgDOBlkxBw","is_bot":false,"login":"brucegorman","name":"Bruce Gorman"},"headRefName":"kc-HelpRequest-controller-get-post","number":46,"title":"kc - Add HelpRequest controller with GET all and POST","url":"https://github.com/ucsb-cs156-f26/team01-f26-13/pull/46"}]
+pull_requests: [{"author":{"id":"U_kgDOBlkxBw","is_bot":false,"login":"brucegorman","name":"Bruce Gorman"},"headRefName":"kc-HelpRequest-controller-get-post","number":46,"title":"kc - Add HelpRequest controller with GET all and POST","url":"https://github.com/ucsb-cs156-f26/team01-f26-13/pull/46"}]
