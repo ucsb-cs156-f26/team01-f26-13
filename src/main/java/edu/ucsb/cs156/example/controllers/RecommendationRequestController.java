@@ -43,12 +43,12 @@ public class RecommendationRequestController extends ApiController {
   /**
    * Create a new Recommendation Request
    *
-   * @param requesterEmail; requester's email
-   * @param professorEmail; professor's email
-   * @param explanation; explaination for request
-   * @param dateRequested; date requested for
-   * @param dateNeeded; date needed by
-   * @param done; is it done?
+   * @param requesterEmail requester's email
+   * @param professorEmail professor's email
+   * @param explanation explaination for request
+   * @param dateRequested date requested for
+   * @param dateNeeded date needed by
+   * @param done is it done?
    * @return the saved recommendation request
    */
   @Operation(summary = "Create a new recommendation request")
@@ -57,7 +57,7 @@ public class RecommendationRequestController extends ApiController {
   public Recommendation_Request postRecommendation_Request(
       @Parameter(name = "requesterEmail") @RequestParam String requesterEmail,
       @Parameter(name = "professorEmail") @RequestParam String professorEmail,
-      @Parameter(name = "explaination") @RequestParam String explaination,
+      @Parameter(name = "explanation") @RequestParam String explanation,
       @Parameter(
               name = "dateRequested",
               description =
@@ -84,7 +84,7 @@ public class RecommendationRequestController extends ApiController {
     Recommendation_Request recommendation_Request = new Recommendation_Request();
     recommendation_Request.setRequesterEmail(requesterEmail);
     recommendation_Request.setProfessorEmail(professorEmail);
-    recommendation_Request.setExplanation(explaination);
+    recommendation_Request.setExplanation(explanation);
     recommendation_Request.setDateRequested(dateRequested);
     recommendation_Request.setDateNeeded(dateNeeded);
     recommendation_Request.setDone(done);
