@@ -43,12 +43,12 @@ import org.springframework.web.bind.annotation.RestController;
   /**
    * Create a new Recommendation Request
    *
-   * @param requesterEmail; requester's email
-   * @param professorEmail; professor's email
-   * @param explanation; explaination for request
-   * @param dateRequested; date requested for
-   * @param dateNeeded; date needed by
-   * @param done; is it done?
+   * @param requesterEmail requester's email
+   * @param professorEmail professor's email
+   * @param explanation explaination for request
+   * @param dateRequested date requested for
+   * @param dateNeeded date needed by
+   * @param done is it done?
    * @return the saved recommendation request
    */
   @Operation(summary = &quot;Create a new recommendation request&quot;)
@@ -57,7 +57,7 @@ import org.springframework.web.bind.annotation.RestController;
   public Recommendation_Request postRecommendation_Request(
       @Parameter(name = &quot;requesterEmail&quot;) @RequestParam String requesterEmail,
       @Parameter(name = &quot;professorEmail&quot;) @RequestParam String professorEmail,
-      @Parameter(name = &quot;explaination&quot;) @RequestParam String explaination,
+      @Parameter(name = &quot;explanation&quot;) @RequestParam String explanation,
       @Parameter(
               name = &quot;dateRequested&quot;,
               description =
@@ -84,7 +84,7 @@ import org.springframework.web.bind.annotation.RestController;
 <span class="fc" id="L84">    Recommendation_Request recommendation_Request = new Recommendation_Request();</span>
 <span class="fc" id="L85">    recommendation_Request.setRequesterEmail(requesterEmail);</span>
 <span class="fc" id="L86">    recommendation_Request.setProfessorEmail(professorEmail);</span>
-<span class="fc" id="L87">    recommendation_Request.setExplanation(explaination);</span>
+<span class="fc" id="L87">    recommendation_Request.setExplanation(explanation);</span>
 <span class="fc" id="L88">    recommendation_Request.setDateRequested(dateRequested);</span>
 <span class="fc" id="L89">    recommendation_Request.setDateNeeded(dateNeeded);</span>
 <span class="fc" id="L90">    recommendation_Request.setDone(done);</span>
