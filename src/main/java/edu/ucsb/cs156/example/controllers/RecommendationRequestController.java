@@ -27,9 +27,9 @@ public class RecommendationRequestController extends ApiController {
   @Autowired RecommendationRequestRepository recommendationRequestRepository;
 
   /**
-   * List all UCSB dates
+   * List all Recommendation Requests
    *
-   * @return an iterable of UCSBDate
+   * @return an iterable of Recommendation Request
    */
   @Operation(summary = "List all Recommendation Requests")
   @PreAuthorize("hasRole('ROLE_USER')")
@@ -94,17 +94,4 @@ public class RecommendationRequestController extends ApiController {
 
     return savedRecommendation_Request;
   }
-
-  /**
-   * Delete a UCSBDate
-   *
-   * @param id the id of the date to delete
-   * @return a message indicating the date was deleted @Operation(summary = "Delete a
-   *     UCSBDate") @PreAuthorize("hasRole('ROLE_ADMIN')") @DeleteMapping("") public Object
-   *     deleteUCSBDate(@Parameter(name = "id") @RequestParam Long id) { UCSBDate ucsbDate =
-   *     ucsbDateRepository .findById(id) .orElseThrow(() -> new
-   *     EntityNotFoundException(UCSBDate.class, id));
-   *     <p>ucsbDateRepository.delete(ucsbDate); return genericMessage("UCSBDate with id %s
-   *     deleted".formatted(id)); }
-   */
 }
