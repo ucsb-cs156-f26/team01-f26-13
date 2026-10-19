@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
   @Autowired RecommendationRequestRepository recommendationRequestRepository;
 
   /**
-   * List all UCSB dates
+   * List all Recommendation Requests
    *
-   * @return an iterable of UCSBDate
+   * @return an iterable of Recommendation Request
    */
   @Operation(summary = &quot;List all Recommendation Requests&quot;)
   @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
@@ -94,18 +94,5 @@ import org.springframework.web.bind.annotation.RestController;
 
 <span class="fc" id="L95">    return savedRecommendation_Request;</span>
   }
-
-  /**
-   * Delete a UCSBDate
-   *
-   * @param id the id of the date to delete
-   * @return a message indicating the date was deleted @Operation(summary = &quot;Delete a
-   *     UCSBDate&quot;) @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;) @DeleteMapping(&quot;&quot;) public Object
-   *     deleteUCSBDate(@Parameter(name = &quot;id&quot;) @RequestParam Long id) { UCSBDate ucsbDate =
-   *     ucsbDateRepository .findById(id) .orElseThrow(() -&gt; new
-   *     EntityNotFoundException(UCSBDate.class, id));
-   *     &lt;p&gt;ucsbDateRepository.delete(ucsbDate); return genericMessage(&quot;UCSBDate with id %s
-   *     deleted&quot;.formatted(id)); }
-   */
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
