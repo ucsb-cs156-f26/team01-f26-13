@@ -106,12 +106,12 @@ import org.springframework.web.bind.annotation.RestController;
   @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
   @GetMapping(&quot;&quot;)
   public Recommendation_Request getById(@Parameter(name = &quot;id&quot;) @RequestParam Long id) {
-<span class="nc" id="L109">    Recommendation_Request recommendation_Request =</span>
+<span class="fc" id="L109">    Recommendation_Request recommendation_Request =</span>
         recommendationRequestRepository
-<span class="nc" id="L111">            .findById(id)</span>
-<span class="nc" id="L112">            .orElseThrow(() -&gt; new EntityNotFoundException(Recommendation_Request.class, id));</span>
+<span class="fc" id="L111">            .findById(id)</span>
+<span class="fc" id="L112">            .orElseThrow(() -&gt; new EntityNotFoundException(Recommendation_Request.class, id));</span>
 
-<span class="nc" id="L114">    return recommendation_Request;</span>
+<span class="fc" id="L114">    return recommendation_Request;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
