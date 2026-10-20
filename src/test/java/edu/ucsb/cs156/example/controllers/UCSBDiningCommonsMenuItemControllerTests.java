@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import edu.ucsb.cs156.example.ControllerTestCase;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MvcResult;
@@ -122,6 +124,112 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
     Map<String, Object> json = responseToJson(response);
     assertEquals("EntityNotFoundException", json.get("type"));
     assertEquals("UCSBDiningCommonsMenuItem with id 7 not found", json.get("message"));
+  }
+
+  @Test
+  public void logged_out_users_cannot_put() throws Exception {
+    String requestBody =
+        "{\"diningCommonsCode\":\"portola\",\"name\":\"Pasta\",\"station\":\"Pasta Station\"}";
+
+    mockMvc
+        .perform(
+            put(BASE_URL)
+                .param("id", "67")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .with(csrf()))
+        .andExpect(status().isForbidden());
+  }
+
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void regular_users_cannot_put() throws Exception {
+    String requestBody =
+        "{\"diningCommonsCode\":\"portola\",\"name\":\"Pasta\",\"station\":\"Pasta Station\"}";
+
+    mockMvc
+        .perform(
+            put(BASE_URL)
+                .param("id", "67")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .with(csrf()))
+        .andExpect(status().isForbidden());
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_can_update_existing_menu_item() throws Exception {
+    UCSBDiningCommonsMenuItem original =
+        UCSBDiningCommonsMenuItem.builder()
+            .id(67L)
+            .diningCommonsCode("carrillo")
+            .name("Pizza")
+            .station("Pizza Station")
+            .build();
+
+    UCSBDiningCommonsMenuItem incoming =
+        UCSBDiningCommonsMenuItem.builder()
+            .id(999L)
+            .diningCommonsCode("portola")
+            .name("Pasta")
+            .station("Pasta Station")
+            .build();
+
+    UCSBDiningCommonsMenuItem expected =
+        UCSBDiningCommonsMenuItem.builder()
+            .id(67L)
+            .diningCommonsCode("portola")
+            .name("Pasta")
+            .station("Pasta Station")
+            .build();
+
+    when(ucsbDiningCommonsMenuItemRepository.findById(67L)).thenReturn(Optional.of(original));
+
+    MvcResult response =
+        mockMvc
+            .perform(
+                put(BASE_URL)
+                    .param("id", "67")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(incoming))
+                    .with(csrf()))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    verify(ucsbDiningCommonsMenuItemRepository, times(1)).findById(67L);
+    verify(ucsbDiningCommonsMenuItemRepository, times(1)).save(expected);
+    assertEquals(mapper.writeValueAsString(expected), response.getResponse().getContentAsString());
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_cannot_update_nonexistent_menu_item() throws Exception {
+    UCSBDiningCommonsMenuItem incoming =
+        UCSBDiningCommonsMenuItem.builder()
+            .diningCommonsCode("portola")
+            .name("Pasta")
+            .station("Pasta Station")
+            .build();
+
+    when(ucsbDiningCommonsMenuItemRepository.findById(67L)).thenReturn(Optional.empty());
+
+    MvcResult response =
+        mockMvc
+            .perform(
+                put(BASE_URL)
+                    .param("id", "67")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(incoming))
+                    .with(csrf()))
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+    verify(ucsbDiningCommonsMenuItemRepository, times(1)).findById(67L);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("UCSBDiningCommonsMenuItem with id 67 not found", json.get("message"));
   }
 
   @Test
