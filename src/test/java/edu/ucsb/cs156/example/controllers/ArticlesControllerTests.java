@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.example.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -232,6 +233,61 @@ public class ArticlesControllerTests extends ControllerTestCase {
     String expectedJson = mapper.writeValueAsString(article1);
     String responseString = response.getResponse().getContentAsString();
     assertEquals(expectedJson, responseString);
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_can_delete_an_article() throws Exception {
+    // arrange
+
+    LocalDateTime ldt1 = LocalDateTime.parse("2022-04-20T00:00:00");
+
+    Article article1 =
+        Article.builder()
+            .title("Using testing-playground with React Testing Library")
+            .url(
+                "https://dev.to/katieraby/using-testing-playground-with-react-testing-library-26j7")
+            .explanation("Helpful when we get to front end development")
+            .email("michaelqzhang@ucsb.edu")
+            .dateAdded(ldt1)
+            .build();
+
+    when(articlesRepository.findById(eq(123L))).thenReturn(Optional.of(article1));
+
+    // act
+    MvcResult response =
+        mockMvc
+            .perform(delete("/api/articles").param("id", "123").with(csrf()))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    // assert
+    verify(articlesRepository, times(1)).findById(123L);
+    verify(articlesRepository, times(1)).delete(any());
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("record 123 deleted", json.get("message"));
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_tries_to_delete_non_existant_article_and_gets_right_error_message()
+      throws Exception {
+    // arrange
+
+    when(articlesRepository.findById(eq(123L))).thenReturn(Optional.empty());
+
+    // act
+    MvcResult response =
+        mockMvc
+            .perform(delete("/api/articles").param("id", "123").with(csrf()))
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+    // assert
+    verify(articlesRepository, times(1)).findById(123L);
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("record 123 not found", json.get("message"));
   }
 
   @WithMockUser(roles = {"ADMIN", "USER"})
