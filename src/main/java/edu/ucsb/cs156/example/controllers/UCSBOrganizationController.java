@@ -56,12 +56,13 @@ public class UCSBOrganizationController extends ApiController {
   //  }
 
   /**
-   * Create a new date
+   * Create a new organization
    *
-   * @param quarterYYYYQ the quarter in the format YYYYQ
-   * @param name the name of the date
-   * @param localDateTime the date
-   * @return the saved ucsbdate
+   * @param orgCode organization code
+   * @param orgTranslationShort the short translation of the organization
+   * @param orgTranslation the long translation of the organization
+   * @param inactive true if inactive, false if active
+   * @return the saved organization
    */
   @Operation(summary = "Create a new organization")
   //  @PreAuthorize("hasRole('ROLE_ADMIN')")
