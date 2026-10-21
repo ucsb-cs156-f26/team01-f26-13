@@ -3,7 +3,7 @@
       {
         "changeSet": {
           "id": "Articles-1",
-          "author": "MushroomYolo",
+          "author": "mushroomyolo",
           "preConditions": [
             {
               "onFail": "MARK_RAN"
