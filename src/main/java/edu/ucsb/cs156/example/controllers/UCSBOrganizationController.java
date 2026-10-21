@@ -2,6 +2,7 @@ package edu.ucsb.cs156.example.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.ucsb.cs156.example.entities.UCSBOrganization;
+import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.UCSBOrganizationRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,22 +39,22 @@ public class UCSBOrganizationController extends ApiController {
   }
 
   /**
-   * Get a single date by id
+   * Get a single organization from its code
    *
-   * @param id the id of the date
-   * @return a UCSBDate
+   * @param orgCode code for the organization
+   * @return a UCSBOrganization
    */
-  //  @Operation(summary = "Get a single date")
-  //  @PreAuthorize("hasRole('ROLE_USER')")
-  //  @GetMapping("")
-  //  public UCSBDate getById(@Parameter(name = "id") @RequestParam Long id) {
-  //    UCSBDate ucsbDate =
-  //        ucsbDateRepository
-  //            .findById(id)
-  //            .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
-  //
-  //    return ucsbDate;
-  //  }
+  @Operation(summary = "Get a single organization")
+  @PreAuthorize("hasRole('ROLE_USER')")
+  @GetMapping("")
+  public UCSBOrganization getById(@Parameter(name = "orgCode") @RequestParam String orgCode) {
+    UCSBOrganization ucsbOrganization =
+        ucsbOrganizationRepository
+            .findById(orgCode)
+            .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+
+    return ucsbOrganization;
+  }
 
   /**
    * Create a new organization
