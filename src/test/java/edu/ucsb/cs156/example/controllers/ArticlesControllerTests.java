@@ -254,11 +254,11 @@ public class ArticlesControllerTests extends ControllerTestCase {
 
     Article articleEdited =
         Article.builder()
-            .title("Using testing-playground with React Testing Library - Updated")
+            .title("Handy Spring Utility Classes")
             .url(
-                "https://dev.to/katieraby/using-testing-playground-with-react-testing-library-26j7")
-            .explanation("Helpful when we get to front end development - Updated")
-            .email("michaelqzhang@ucsb.edu")
+                "https://twitter.com/maciejwalkowiak/status/1511736828369719300?t=gGXpmBH4y4eY9OBSUInZEg&s=09")
+            .explanation("A lot of really useful classes are built into Spring")
+            .email("michaelqzhang@csil.cs.ucsb.edu")
             .dateAdded(ldt2)
             .build();
 
