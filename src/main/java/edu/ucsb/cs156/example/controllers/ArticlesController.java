@@ -66,7 +66,7 @@ public class ArticlesController extends ApiController {
    * @return the saved Article
    */
   @Operation(summary = "Create a new article")
-  @PreAuthorize("hasRole('ROLE_USER')")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping("/post")
   public Article postArticle(
       @Parameter(name = "title") @RequestParam String title,
