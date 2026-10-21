@@ -64,6 +64,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="edu/ucsb/cs156/example/controllers/JobsController.html#allJobs()" class="member-name-link">allJobs()</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/JobsController.html" title="class in edu.ucsb.cs156.example.controllers">JobsController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html#allMenuItemReviews()" class="member-name-link">allMenuItemReviews()</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html" title="class in edu.ucsb.cs156.example.controllers">MenuItemReviewController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="edu/ucsb/cs156/example/controllers/RecommendationRequestController.html#allRecommendationRequests()" class="member-name-link">allRecommendationRequests()</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/RecommendationRequestController.html" title="class in edu.ucsb.cs156.example.controllers">RecommendationRequestController</a></dt>
 <dd>
 <div class="block">List all Recommendation Requests</div>
@@ -226,6 +228,10 @@ by querying the user repository.</div>
 <dt><a href="edu/ucsb/cs156/example/controllers/HelpRequestController.html#getById(java.lang.Long)" class="member-name-link">getById(Long)</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/HelpRequestController.html" title="class in edu.ucsb.cs156.example.controllers">HelpRequestController</a></dt>
 <dd>
 <div class="block">Get a single help request by id</div>
+</dd>
+<dt><a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html#getById(java.lang.Long)" class="member-name-link">getById(Long)</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html" title="class in edu.ucsb.cs156.example.controllers">MenuItemReviewController</a></dt>
+<dd>
+<div class="block">Get a single review by id</div>
 </dd>
 <dt><a href="edu/ucsb/cs156/example/controllers/RecommendationRequestController.html#getById(java.lang.Long)" class="member-name-link">getById(Long)</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/RecommendationRequestController.html" title="class in edu.ucsb.cs156.example.controllers">RecommendationRequestController</a></dt>
 <dd>
@@ -433,6 +439,18 @@ team (e.g. on the #help-lecture-discussion slack channel).</div>
 <dd>
 <div class="block">The main method is the entry point for the application.</div>
 </dd>
+<dt><a href="edu/ucsb/cs156/example/entities/MenuItemReview.html" class="type-name-link" title="class in edu.ucsb.cs156.example.entities">MenuItemReview</a> - Class in <a href="edu/ucsb/cs156/example/entities/package-summary.html">edu.ucsb.cs156.example.entities</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="edu/ucsb/cs156/example/entities/MenuItemReview.html#%3Cinit%3E()" class="member-name-link">MenuItemReview()</a> - Constructor for class edu.ucsb.cs156.example.entities.<a href="edu/ucsb/cs156/example/entities/MenuItemReview.html" title="class in edu.ucsb.cs156.example.entities">MenuItemReview</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html" class="type-name-link" title="class in edu.ucsb.cs156.example.controllers">MenuItemReviewController</a> - Class in <a href="edu/ucsb/cs156/example/controllers/package-summary.html">edu.ucsb.cs156.example.controllers</a></dt>
+<dd>
+<div class="block">This is a REST controller for MenuItemReview</div>
+</dd>
+<dt><a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html#%3Cinit%3E()" class="member-name-link">MenuItemReviewController()</a> - Constructor for class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html" title="class in edu.ucsb.cs156.example.controllers">MenuItemReviewController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="edu/ucsb/cs156/example/repositories/MenuItemReviewRepository.html" class="type-name-link" title="interface in edu.ucsb.cs156.example.repositories">MenuItemReviewRepository</a> - Interface in <a href="edu/ucsb/cs156/example/repositories/package-summary.html">edu.ucsb.cs156.example.repositories</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:P">P</h2>
 <dl class="index">
@@ -447,6 +465,10 @@ team (e.g. on the #help-lecture-discussion slack channel).</div>
 <dt><a href="edu/ucsb/cs156/example/controllers/HelpRequestController.html#postHelpRequest(java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.lang.String,boolean)" class="member-name-link">postHelpRequest(String, String, String, LocalDateTime, String, boolean)</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/HelpRequestController.html" title="class in edu.ucsb.cs156.example.controllers">HelpRequestController</a></dt>
 <dd>
 <div class="block">Create a new help request</div>
+</dd>
+<dt><a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html#postMenuItemReview(java.lang.Long,java.lang.String,java.lang.Integer,java.time.LocalDateTime,java.lang.String)" class="member-name-link">postMenuItemReview(Long, String, Integer, LocalDateTime, String)</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/MenuItemReviewController.html" title="class in edu.ucsb.cs156.example.controllers">MenuItemReviewController</a></dt>
+<dd>
+<div class="block">Create a new menu item review</div>
 </dd>
 <dt><a href="edu/ucsb/cs156/example/controllers/RecommendationRequestController.html#postRecommendation_Request(java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,boolean)" class="member-name-link">postRecommendation_Request(String, String, String, LocalDateTime, LocalDateTime, boolean)</a> - Method in class edu.ucsb.cs156.example.controllers.<a href="edu/ucsb/cs156/example/controllers/RecommendationRequestController.html" title="class in edu.ucsb.cs156.example.controllers">RecommendationRequestController</a></dt>
 <dd>
