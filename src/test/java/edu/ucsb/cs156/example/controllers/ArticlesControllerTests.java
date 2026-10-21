@@ -266,7 +266,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
     verify(articlesRepository, times(1)).delete(any());
 
     Map<String, Object> json = responseToJson(response);
-    assertEquals("record 123 deleted", json.get("message"));
+    assertEquals("Article with id 123 deleted", json.get("message"));
   }
 
   @WithMockUser(roles = {"ADMIN", "USER"})
@@ -287,7 +287,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
     // assert
     verify(articlesRepository, times(1)).findById(123L);
     Map<String, Object> json = responseToJson(response);
-    assertEquals("record 123 not found", json.get("message"));
+    assertEquals("Article with id 123 not found", json.get("message"));
   }
 
   @WithMockUser(roles = {"ADMIN", "USER"})
