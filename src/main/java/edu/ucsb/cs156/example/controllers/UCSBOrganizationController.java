@@ -2,6 +2,7 @@ package edu.ucsb.cs156.example.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.ucsb.cs156.example.entities.UCSBOrganization;
+import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.UCSBOrganizationRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,30 +39,31 @@ public class UCSBOrganizationController extends ApiController {
   }
 
   /**
-   * Get a single date by id
+   * Get a single organization by its orgcode
    *
-   * @param id the id of the date
-   * @return a UCSBDate
+   * @param orgCode the oroganization code
+   * @return an Organization
    */
-  //  @Operation(summary = "Get a single date")
-  //  @PreAuthorize("hasRole('ROLE_USER')")
-  //  @GetMapping("")
-  //  public UCSBDate getById(@Parameter(name = "id") @RequestParam Long id) {
-  //    UCSBDate ucsbDate =
-  //        ucsbDateRepository
-  //            .findById(id)
-  //            .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
-  //
-  //    return ucsbDate;
-  //  }
+  @Operation(summary = "Get a single organization")
+  @PreAuthorize("hasRole('ROLE_USER')")
+  @GetMapping("")
+  public UCSBOrganization getById(@Parameter(name = "orgCode") @RequestParam String orgCode) {
+    UCSBOrganization ucsbOrganization =
+        ucsbOrganizationRepository
+            .findById(orgCode)
+            .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+
+    return ucsbOrganization;
+  }
 
   /**
    * Create a new date
    *
-   * @param quarterYYYYQ the quarter in the format YYYYQ
-   * @param name the name of the date
-   * @param localDateTime the date
-   * @return the saved ucsbdate
+   * @param orgCode organization code
+   * @param orgTranslationShort short translation of organization name
+   * @param orgTranslation full translation of organization name
+   * @param inactive true if organization is inactive, false if organization is active
+   * @return the saved UCSBOrganization
    */
   @Operation(summary = "Create a new organization")
   //  @PreAuthorize("hasRole('ROLE_ADMIN')")
