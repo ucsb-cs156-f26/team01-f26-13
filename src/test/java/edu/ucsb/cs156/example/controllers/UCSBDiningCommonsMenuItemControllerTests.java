@@ -15,6 +15,8 @@ import edu.ucsb.cs156.example.repositories.UCSBDiningCommonsMenuItemRepository;
 import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -77,6 +79,49 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
     verify(ucsbDiningCommonsMenuItemRepository, times(1)).findAll();
     assertEquals("[]", response.getResponse().getContentAsString());
+  }
+
+  @Test
+  public void logged_out_users_cannot_get_by_id() throws Exception {
+    mockMvc.perform(get(BASE_URL).param("id", "7")).andExpect(status().isForbidden());
+  }
+
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void logged_in_user_can_get_by_id_when_it_exists() throws Exception {
+    UCSBDiningCommonsMenuItem item =
+        UCSBDiningCommonsMenuItem.builder()
+            .id(7L)
+            .diningCommonsCode("carrillo")
+            .name("Pizza")
+            .station("Pizza Station")
+            .build();
+
+    when(ucsbDiningCommonsMenuItemRepository.findById(7L)).thenReturn(Optional.of(item));
+
+    MvcResult response =
+        mockMvc.perform(get(BASE_URL).param("id", "7")).andExpect(status().isOk()).andReturn();
+
+    verify(ucsbDiningCommonsMenuItemRepository, times(1)).findById(7L);
+    assertEquals(mapper.writeValueAsString(item), response.getResponse().getContentAsString());
+  }
+
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void logged_in_user_gets_404_when_id_does_not_exist() throws Exception {
+    when(ucsbDiningCommonsMenuItemRepository.findById(7L)).thenReturn(Optional.empty());
+
+    MvcResult response =
+        mockMvc
+            .perform(get(BASE_URL).param("id", "7"))
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+    verify(ucsbDiningCommonsMenuItemRepository, times(1)).findById(7L);
+
+    Map<String, Object> json = responseToJson(response);
+    assertEquals("EntityNotFoundException", json.get("type"));
+    assertEquals("UCSBDiningCommonsMenuItem with id 7 not found", json.get("message"));
   }
 
   @Test
