@@ -66,6 +66,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#allRecommendationRequests()" tabindex="0">allRecommendationRequests()</a></li>
 <li><a href="#postRecommendation_Request(java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,boolean)" tabindex="0">postRecommendation_Request(String, String, String, LocalDateTime, LocalDateTime, boolean)</a></li>
 <li><a href="#getById(java.lang.Long)" tabindex="0">getById(Long)</a></li>
+<li><a href="#updateRecommendationRequest(java.lang.Long,edu.ucsb.cs156.example.entities.Recommendation_Request)" tabindex="0">updateRecommendationRequest(Long, Recommendation_Request)</a></li>
 </ol>
 </li>
 </ol>
@@ -135,6 +136,12 @@ loadScripts(document, 'script');</script>
  boolean&nbsp;done)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a new Recommendation Request</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../entities/Recommendation_Request.html" title="class in edu.ucsb.cs156.example.entities">Recommendation_Request</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateRecommendationRequest(java.lang.Long,edu.ucsb.cs156.example.entities.Recommendation_Request)" class="member-name-link">updateRecommendationRequest</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;id,
+ @Valid <a href="../entities/Recommendation_Request.html" title="class in edu.ucsb.cs156.example.entities">Recommendation_Request</a>&nbsp;incoming)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update a single recommendation request</div>
 </div>
 </div>
 </div>
@@ -237,6 +244,27 @@ loadScripts(document, 'script');</script>
 <dd><code>id</code> - the id of the request</dd>
 <dt>Returns:</dt>
 <dd>a recommendation request</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="updateRecommendationRequest(java.lang.Long,edu.ucsb.cs156.example.entities.Recommendation_Request)">
+<h3>updateRecommendationRequest</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations">@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PutMapping("")
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../entities/Recommendation_Request.html" title="class in edu.ucsb.cs156.example.entities">Recommendation_Request</a></span>&nbsp;<span class="element-name">updateRecommendationRequest</span><wbr><span class="parameters">(@RequestParam
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;id,
+ @RequestBody @Valid
+ @Valid <a href="../entities/Recommendation_Request.html" title="class in edu.ucsb.cs156.example.entities">Recommendation_Request</a>&nbsp;incoming)</span></div>
+<div class="block">Update a single recommendation request</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>id</code> - id of the recommendation request to update</dd>
+<dd><code>incoming</code> - the new recommendaiton request</dd>
+<dt>Returns:</dt>
+<dd>the updated recommendation request object</dd>
 </dl>
 </div>
 </section>
