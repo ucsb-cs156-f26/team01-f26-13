@@ -6,11 +6,14 @@ import edu.ucsb.cs156.example.repositories.UCSBDiningCommonsMenuItemRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,5 +76,33 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
     menuItem.setStation(station);
 
     return ucsbDiningCommonsMenuItemRepository.save(menuItem);
+  }
+
+  /**
+   * Update a UCSB dining commons menu item by id.
+   *
+   * @param id the id of the menu item to update
+   * @param incoming the updated menu item data
+   * @return the updated menu item
+   */
+  @Operation(summary = "Update a single UCSB dining commons menu item")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PutMapping("")
+  public UCSBDiningCommonsMenuItem updateUCSBDiningCommonsMenuItem(
+      @Parameter(name = "id") @RequestParam Long id,
+      @RequestBody @Valid UCSBDiningCommonsMenuItem incoming) {
+
+    UCSBDiningCommonsMenuItem menuItem =
+        ucsbDiningCommonsMenuItemRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+    menuItem.setDiningCommonsCode(incoming.getDiningCommonsCode());
+    menuItem.setName(incoming.getName());
+    menuItem.setStation(incoming.getStation());
+
+    ucsbDiningCommonsMenuItemRepository.save(menuItem);
+
+    return menuItem;
   }
 }
