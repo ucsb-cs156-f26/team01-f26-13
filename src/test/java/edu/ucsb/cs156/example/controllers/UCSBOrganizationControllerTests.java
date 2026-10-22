@@ -17,6 +17,7 @@ import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -170,6 +171,135 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
     MvcResult response =
         mockMvc
             .perform(get("/api/ucsborganizations?orgCode=MOCK"))
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+    verify(ucsbOrganizationRepository, times(1)).findById(eq("MOCK"));
+    String responseString = response.getResponse().getContentAsString();
+    org.junit.jupiter.api.Assertions.assertTrue(responseString.contains("EntityNotFoundException"));
+  }
+
+  @Test
+  public void logged_out_users_cannot_delete() throws Exception {
+    mockMvc.perform(delete("/api/ucsborganizations?orgCode=ZPR")).andExpect(status().is(403));
+  }
+
+  @WithMockUser(roles = {"USER"})
+  @Test
+  public void logged_in_regular_users_cannot_delete() throws Exception {
+    mockMvc
+        .perform(delete("/api/ucsborganizations?orgCode=ZPR").with(csrf()))
+        .andExpect(status().is(403));
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_can_delete_an_organization() throws Exception {
+    UCSBOrganization zpr =
+        UCSBOrganization.builder()
+            .orgCode("ZPR")
+            .orgTranslationShort("ZETA PHI RHO")
+            .orgTranslation("ZETA PHI RHO")
+            .inactive(false)
+            .build();
+
+    when(ucsbOrganizationRepository.findById(eq("ZPR"))).thenReturn(Optional.of(zpr));
+
+    MvcResult response =
+        mockMvc
+            .perform(delete("/api/ucsborganizations?orgCode=ZPR").with(csrf()))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    verify(ucsbOrganizationRepository, times(1)).findById(eq("ZPR"));
+    verify(ucsbOrganizationRepository, times(1)).delete(any(UCSBOrganization.class));
+
+    String responseString = response.getResponse().getContentAsString();
+    String expectedJson =
+        mapper.writeValueAsString(Map.of("message", "UCSBOrganization with orgCode ZPR deleted"));
+    assertEquals(expectedJson, responseString);
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_tries_to_delete_non_existent_organization_and_gets_not_found()
+      throws Exception {
+    when(ucsbOrganizationRepository.findById(eq("MOCK"))).thenReturn(Optional.empty());
+
+    MvcResult response =
+        mockMvc
+            .perform(delete("/api/ucsborganizations?orgCode=MOCK").with(csrf()))
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+    verify(ucsbOrganizationRepository, times(1)).findById(eq("MOCK"));
+    String responseString = response.getResponse().getContentAsString();
+    org.junit.jupiter.api.Assertions.assertTrue(responseString.contains("EntityNotFoundException"));
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_can_edit_an_organization() throws Exception {
+    UCSBOrganization zpr1 =
+        UCSBOrganization.builder()
+            .orgCode("ZPR")
+            .orgTranslationShort("ZETA PHI RHO")
+            .orgTranslation("ZETA PHI RHO")
+            .inactive(false)
+            .build();
+
+    UCSBOrganization zpr2 =
+        UCSBOrganization.builder()
+            .orgCode("ZPR")
+            .orgTranslationShort("Zeta Phi Rho")
+            .orgTranslation("Zeta Phi Rho Fraternity")
+            .inactive(true)
+            .build();
+
+    String requestBody = mapper.writeValueAsString(zpr2);
+
+    when(ucsbOrganizationRepository.findById(eq("ZPR"))).thenReturn(Optional.of(zpr1));
+
+    MvcResult response =
+        mockMvc
+            .perform(
+                put("/api/ucsborganizations?orgCode=ZPR")
+                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8")
+                    .content(requestBody)
+                    .with(csrf()))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    verify(ucsbOrganizationRepository, times(1)).findById(eq("ZPR"));
+    verify(ucsbOrganizationRepository, times(1)).save(any(UCSBOrganization.class));
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals(requestBody, responseString);
+  }
+
+  @WithMockUser(roles = {"ADMIN", "USER"})
+  @Test
+  public void admin_cannot_edit_organization_that_does_not_exist() throws Exception {
+    UCSBOrganization editedOrg =
+        UCSBOrganization.builder()
+            .orgCode("MOCK")
+            .orgTranslationShort("Mock Org")
+            .orgTranslation("Mock Organization")
+            .inactive(true)
+            .build();
+
+    String requestBody = mapper.writeValueAsString(editedOrg);
+
+    when(ucsbOrganizationRepository.findById(eq("MOCK"))).thenReturn(Optional.empty());
+
+    MvcResult response =
+        mockMvc
+            .perform(
+                put("/api/ucsborganizations?orgCode=MOCK")
+                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8")
+                    .content(requestBody)
+                    .with(csrf()))
             .andExpect(status().isNotFound())
             .andReturn();
 

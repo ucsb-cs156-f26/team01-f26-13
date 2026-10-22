@@ -7,11 +7,15 @@ import edu.ucsb.cs156.example.repositories.UCSBOrganizationRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -93,48 +97,49 @@ public class UCSBOrganizationController extends ApiController {
   }
 
   /**
-   * Delete a UCSBDate
+   * Delete a UCSBOrganization
    *
-   * @param id the id of the date to delete
-   * @return a message indicating the date was deleted
+   * @param orgCode the code of the organization to delete
+   * @return a message indicating the organization was deleted
    */
-  //  @Operation(summary = "Delete a UCSBDate")
-  //  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  //  @DeleteMapping("")
-  //  public Object deleteUCSBDate(@Parameter(name = "id") @RequestParam Long id) {
-  //    UCSBDate ucsbDate =
-  //        ucsbDateRepository
-  //            .findById(id)
-  //            .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
+  @Operation(summary = "Delete a UCSBOrganization")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @DeleteMapping("")
+  public Object deleteUCSBOrganization(@Parameter(name = "orgCode") @RequestParam String orgCode) {
+    UCSBOrganization ucsbOrganization =
+        ucsbOrganizationRepository
+            .findById(orgCode)
+            .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
 
-  //    ucsbDateRepository.delete(ucsbDate);
-  //    return genericMessage("UCSBDate with id %s deleted".formatted(id));
-  //  }
+    ucsbOrganizationRepository.delete(ucsbOrganization);
+    return genericMessage("UCSBOrganization with orgCode %s deleted".formatted(orgCode));
+  }
 
   /**
-   * Update a single date
+   * Update a single organization
    *
-   * @param id id of the date to update
-   * @param incoming the new date
-   * @return the updated date object
+   * @param orgCode code of the organization to update
+   * @param incoming the new organization
+   * @return the updated organization object
    */
-  //  @Operation(summary = "Update a single date")
-  //  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  //  @PutMapping("")
-  //  public UCSBDate updateUCSBDate(
-  //      @Parameter(name = "id") @RequestParam Long id, @RequestBody @Valid UCSBDate incoming) {
+  @Operation(summary = "Update a single organization")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PutMapping("")
+  public UCSBOrganization updateUCSBOrganization(
+      @Parameter(name = "orgCode") @RequestParam String orgCode,
+      @RequestBody @Valid UCSBOrganization incoming) {
 
-  //    UCSBDate ucsbDate =
-  //        ucsbDateRepository
-  //            .findById(id)
-  //            .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
+    UCSBOrganization ucsbOrganization =
+        ucsbOrganizationRepository
+            .findById(orgCode)
+            .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
 
-  //    ucsbDate.setQuarterYYYYQ(incoming.getQuarterYYYYQ());
-  //    ucsbDate.setName(incoming.getName());
-  //    ucsbDate.setLocalDateTime(incoming.getLocalDateTime());
+    ucsbOrganization.setOrgTranslationShort(incoming.getOrgTranslationShort());
+    ucsbOrganization.setOrgTranslation(incoming.getOrgTranslation());
+    ucsbOrganization.setInactive(incoming.getInactive());
 
-  //    ucsbDateRepository.save(ucsbDate);
+    ucsbOrganizationRepository.save(ucsbOrganization);
 
-  //    return ucsbDate;
-  //  }
+    return ucsbOrganization;
+  }
 }
